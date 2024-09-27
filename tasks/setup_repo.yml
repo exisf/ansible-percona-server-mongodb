@@ -1,0 +1,24 @@
+---
+- name: download percona repo
+  get_url:
+    url: "{{ PM_apt_repository }}"
+    dest: /tmp/
+
+- name: install the deb
+  apt:
+    deb: /tmp/percona-release_latest.{{ ansible_distribution_release }}_all.deb
+
+- name: Update apt repo
+  apt:
+    update_cache: yes
+
+- name: Enable release version
+  shell:  |
+      /usr/bin/percona-release enable psmdb-{{ PM_release_version }} 
+      /usr/bin/percona-release enable tools
+
+- name: install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ PM_packages }}"

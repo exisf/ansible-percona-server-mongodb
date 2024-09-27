@@ -1,0 +1,14 @@
+---
+- name: Install / repo setup
+  include_tasks: 
+    file: "{{ role_path }}/tasks/setup_repo.yml"
+    apply:
+      tags: pm_repo
+  tags: pm_repo
+
+- name: Configure the deployment
+  include_tasks: 
+    file: "{{ role_path }}/tasks/setup_config.yml"
+    apply:
+      tags: pm_config
+  tags: pm_config

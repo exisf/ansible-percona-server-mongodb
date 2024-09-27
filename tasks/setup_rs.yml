@@ -1,0 +1,13 @@
+---
+- name: Initialize replica set on the primary node
+  shell: |
+    mongo --eval 'rs.initiate()'
+  when: 
+   - inventory_hostname in groups['mongodb_master']
+
+- name: Add secondary nodes to the replica set
+  shell: |
+    mongo --eval 'rs.add("{{ hostvars[item].ansible_host }}")'
+  loop: "{{ groups['mongodb_slave'] }}"
+  when: 
+    - inventory_hostname in groups['mongodb_master']

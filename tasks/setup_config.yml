@@ -1,0 +1,39 @@
+---
+- name: Create  PM data directory
+  file:
+    path: "{{ PM_data_dir }}"
+    owner: mongod
+    mode: '0755'
+    state: directory
+  
+- name: Configure mongod.conf for replica set
+  template:
+    src: templates/mongod.conf.j2
+    dest: /etc/mongod.conf
+    owner: mongod
+    group: root
+    mode: '0644'
+  notify:
+    - Restart_mongoDB
+
+- name: Setup keyfile for host and encryption
+  include_tasks: "{{ role_path }}/tasks/setup_keys.yml"
+
+- name: Start and enable MongoDB
+  systemd:
+    name: mongod
+    enabled: yes
+    state: restarted
+  # when: 
+  #  - data_dir.changed
+
+
+- name: Initialize the rs 
+  include_tasks: "{{ role_path }}/tasks/setup_rs.yml"
+
+- name: Create admin db user with password 
+  include_tasks: "{{ role_path }}/tasks/setup_user.yml"
+
+
+
+

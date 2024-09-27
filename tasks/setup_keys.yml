@@ -1,0 +1,38 @@
+---
+- name: Create  PM data directory
+  file:
+    path: "{{ item }}"
+    owner: mongod
+    mode: '0755'
+    state: directory
+  loop:
+    - /data/mongodb/
+  register: data_dir
+
+- name: Removed default PM data file
+  file:
+    path: "{{ PM_data_dir }}"
+    state: absent
+
+- name: Create new  PM data directory
+  file:
+    path: "{{ PM_data_dir }}"
+    owner: mongod
+    mode: '0755'
+    state: directory
+
+- name: Generate encrption key file key at rest
+  shell: "openssl rand -base64 32 > {{ PM_encryption_key_file }}"
+  args:
+    creates: "{{ PM_encryption_key_file }}"
+  notify:
+    - Restart_mongoDB
+
+- name: Set permissions on encryption key
+  file:
+    path: "{{ PM_encryption_key_file }}"
+    owner: mongod
+    group: root
+    mode: '0600'
+  notify:
+    - Restart_mongoDB

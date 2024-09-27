@@ -1,0 +1,18 @@
+---
+# defaults file for ansible_role_mongodb_percona
+
+PM_apt_repository: https://repo.percona.com/apt/percona-release_latest.{{ ansible_distribution_release }}_all.deb
+PM_release_version: 70
+PM_rs_port: 27017
+PM_packages:
+  - percona-server-mongodb
+  - percona-server-mongodb-shell
+  - cryptsetup-bin
+
+PM_bind_IP: "{{ ipv4_address }}"
+PM_data_dir: /var/lib/mongodb
+PM_admin_password: 
+
+
+PM_encryption_key_file: /data/mongodb/encrypt-keyfile
+PM_keyfile: /data/mongodb/mongodb-keyfile

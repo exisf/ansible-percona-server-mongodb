@@ -1,0 +1,78 @@
+########################################
+####### Managed by ansible     #########
+####### Do not modify ##################
+########################################
+
+# Where and how to store data.
+storage:
+  dbPath: {{ PM_data_dir }}
+  journal:
+    enabled: true
+  
+ 
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongodb/mongod.log
+
+processManagement:
+  fork: true
+  pidFilePath: /var/run/mongod.pid
+  timeZoneInfo: /usr/share/zoneinfo
+
+# network interfaces
+net:
+  port: {{ PM_rs_port }}
+  bindIp: "{{ PM_bind_IP }},127.0.0.1"
+
+security:
+  encryptionKeyFile: "{{ PM_encryption_key_file }}"
+  enableEncryption: true
+  #keyFile: "{{ PM_keyfile }}"
+  javascriptEnabled: false
+
+
+
+operationProfiling:
+  mode: slowOp 
+  slowOpThresholdMs: 100
+
+replication:
+  replSetName: rs1
+
+#sharding:
+
+## Enterprise-Only Options:
+
+#auditLog:
+
+#snmp:
+
+
+# Storage engine various options
+#  More info for wiredTiger: https://docs.mongodb.com/v4.4/reference/configuration-options/#storage-wiredtiger-options
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 1
+#      checkpointSizeMB: 1000
+#      statisticsLogDelaySecs: 0
+#      journalCompressor: snappy
+#      directoryForIndexes: false
+#    collectionConfig:
+#      blockCompressor: snappy
+#    indexConfig:
+#      prefixCompression: true
+
+#  More info for inMemory: https://www.percona.com/doc/percona-server-for-mongodb/4.4/inmemory.html#configuring-percona-memory-engine
+#  inMemory:
+#    engineConfig:
+#      inMemorySizeGB: 1
+#      statisticsLogDelaySecs: 0
+
+# Two options below can be used for wiredTiger and inMemory storage engines
+#setParameter:
+#    wiredTigerConcurrentReadTransactions: 128
+#    wiredTigerConcurrentWriteTransactions: 128
+

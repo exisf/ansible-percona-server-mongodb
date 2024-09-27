@@ -1,0 +1,16 @@
+---
+- name: template the command to create root user
+  template:
+    src: templates/createadmin_user.j2
+    dest: /tmp/createadmin_user.js
+    mode: 0644
+  when: inventory_hostname in groups['mongodb_master']
+  register: create_user
+
+- name: run the command to create a root user
+  shell: mongo admin --port {{ PM_rs_port }} < /tmp/createadmin_user.js
+  when: 
+    - create_user.changed
+    - inventory_hostname in groups['mongodb_master']
+  notify:
+    - Restart_mongoDB
