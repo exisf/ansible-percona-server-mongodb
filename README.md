@@ -29,12 +29,14 @@ PM_keyfile:
 
 Example Playbook
 ----------------
+```
 - hosts: all
   gather_facts: yes
   become: true
   
   roles:
     - { role: ansible_role_mongodb_percona, tags: percona }
+```
 
 inventory
 ----------------
