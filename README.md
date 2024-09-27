@@ -15,7 +15,7 @@ Ubuntu 20 and 22, Disk: 250+, x86_64, 4GB of RAM
 Role Variables
 --------------
 ```
-Varables for this role are in the defaults.uml
+Varables for this role are in the defaults.yml
 PM_apt_repository: 
 PM_release_version:
 PM_rs_port:
