@@ -4,7 +4,7 @@ Ansible percona server mongodb
 Ansible role to set up percona-server-mongodb.
 
 Supports:
-- Encyption at rest
+- Encryption at rest
 - Admin user create
 - Replication on multi instance
 
